@@ -7,25 +7,13 @@ import { AppComponent } from './app.component';
 import { DoadoresComponent } from './components/doadores/doadores.component';
 
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule}  from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DoadoresComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatPaginatorModule,
-
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA,
-  ],
+    declarations: [AppComponent, DoadoresComponent],
+    imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, MatTableModule, MatPaginatorModule],
+    providers: [],
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
