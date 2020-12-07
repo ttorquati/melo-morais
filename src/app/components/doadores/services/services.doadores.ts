@@ -20,7 +20,6 @@ export class DoadoresService {
     constructor(private httpClient: HttpClient) {}
 
     getDoadores(): Observable<DoadoresGetModel[]> {
-        console.log(this.apiUrl)
         return this.httpClient.get<DoadoresGetModel[]>(`${this.apiUrl}/doadores`, this.httpOptions);
     }
 }
