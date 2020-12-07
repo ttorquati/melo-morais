@@ -8,10 +8,12 @@ import { DoadoresComponent } from './components/doadores/doadores.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { HttpClientModule } from '@angular/common/http';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     declarations: [AppComponent, DoadoresComponent],
-    imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, MatTableModule, MatPaginatorModule],
+    imports: [BrowserModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule, MatTableModule, MatInputModule, MatPaginatorModule],
     providers: [],
     bootstrap: [AppComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

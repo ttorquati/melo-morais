@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+    apiUrl: 'http://melo-morais-backend-qa.herokuapp.com',
     production: false,
 };
 
