@@ -9,7 +9,6 @@ import { DoadoresGetModel } from '../models/doadores-get';
     providedIn: 'root',
 })
 export class DoadoresService {
-    // private url = `${this.config.getConfig().apiUrl}/users`;
     apiUrl = environment.apiUrl;
 
     private httpOptions = {
