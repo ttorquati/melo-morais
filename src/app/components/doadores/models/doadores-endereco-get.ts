@@ -3,4 +3,5 @@ export class DoadoresEnderecoGetModel {
     complemento: string;
     numero: string;
     rua: string;
+    obs: string;
 }
