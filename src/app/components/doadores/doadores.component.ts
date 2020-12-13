@@ -17,7 +17,7 @@ import { DoadoresService } from '../doadores/services/services.doadores';
 export class DoadoresComponent implements OnInit, OnDestroy {
     private getUnsubscribe$: Subject<void>;
     doadores: MatTableDataSource<DoadoresGetModel>;
-    displayedColumns: string[] = ['nome',];
+    displayedColumns: string[] = ['nome', 'contato', 'quantidade', 'semana', 'rua', 'numero', 'bairro', 'complemento', 'obs'];
     pageInitial = 10;
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
