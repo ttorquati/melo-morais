@@ -1,6 +1,7 @@
 # MeloMorais
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+API Swagger: https://melo-morais-backend-qa.herokuapp.com/swagger-ui/
 
 ## Development server
 
