@@ -10,9 +10,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
+import { GeradorRotasComponent } from './components/gerador-rotas/gerador-rotas.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
-    declarations: [AppComponent, DoadoresComponent],
+    declarations: [AppComponent, DoadoresComponent, GeradorRotasComponent, HeaderComponent],
     imports: [BrowserModule, HttpClientModule, AppRoutingModule, BrowserAnimationsModule, MatTableModule, MatInputModule, MatPaginatorModule],
     providers: [],
     bootstrap: [AppComponent],

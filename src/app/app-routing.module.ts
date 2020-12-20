@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DoadoresComponent } from './components/doadores/doadores.component'
+import { GeradorRotasComponent } from './components/gerador-rotas/gerador-rotas.component';
 
 const routes: Routes = [
-    // { path: 'Doadores', component: DoadoresComponent },
+    { path: '', component: DoadoresComponent },
+    { path: 'doadores', component: DoadoresComponent },
+    { path: 'gera-rota', component: GeradorRotasComponent}
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        RouterModule.forRoot(routes)
+    ],
     exports: [RouterModule],
 })
 export class AppRoutingModule {}
