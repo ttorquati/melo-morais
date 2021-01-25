@@ -14,7 +14,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export class CadastroDoadorComponent implements OnInit {
 
-  private getUnsubscribe$: Subject<void>;
   doadorForm: FormGroup;
 
   constructor(public doadoresService: DoadoresService, public dialog: MatDialog) {}
@@ -24,8 +23,6 @@ export class CadastroDoadorComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.getUnsubscribe$.next();
-    this.getUnsubscribe$.complete();
   }
 
   submit() {
