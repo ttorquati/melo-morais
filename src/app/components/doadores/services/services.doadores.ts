@@ -1,6 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { URLSearchParams } from 'url';
 
 import { environment } from '../../../../environments/environment';
 import { NovoDoador } from '../../cadastro-doador/model/novo-doador';
@@ -10,6 +11,7 @@ import { DoadoresGetModel } from '../models/doadores-get';
     providedIn: 'root',
 })
 export class DoadoresService {
+  
     apiUrl = environment.apiUrl;
 
     private httpOptions = {
@@ -27,5 +29,32 @@ export class DoadoresService {
     salvaDoador(novoDoador: NovoDoador): Observable<any> {
         console.log(novoDoador);
         return this.httpClient.post(`${this.apiUrl}/doadores`, novoDoador);
+    }
+
+    getDoadoresSemanaBairro(semanas: number[], bairros: string[]): Observable<DoadoresGetModel[]> {
+        let params = new HttpParams();
+        params = params.append("semanas", semanas.join(","));
+        params = params.append("bairros", bairros.join(","));
+        let myhttpOptions = { 
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            params: params
+        }
+
+        return this.httpClient.get<DoadoresGetModel[]>(`${this.apiUrl}/doacoes/semana`, myhttpOptions);
+    }
+
+    gerarRota(doadoresIds: number[]): Observable<any> {
+        let params = new HttpParams();
+        params = params.append("doadoresIds", doadoresIds.join(","));
+        let myhttpOptions = { 
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            params: params
+        }
+
+        return this.httpClient.get<DoadoresGetModel[]>(`${this.apiUrl}/doacoes/gera-rota`, myhttpOptions);
     }
 }

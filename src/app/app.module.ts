@@ -17,6 +17,8 @@ import { GeradorRotasComponent } from './components/gerador-rotas/gerador-rotas.
 import { HeaderComponent } from './components/header/header.component';
 import { CadastroDoadorComponent } from './components/cadastro-doador/cadastro-doador.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [AppComponent, DoadoresComponent, GeradorRotasComponent, HeaderComponent, CadastroDoadorComponent],
@@ -32,7 +34,9 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatSelectModule,
         FormsModule,
         ReactiveFormsModule,
-        MatDialogModule
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule
     ],
     providers: [],
     bootstrap: [AppComponent],

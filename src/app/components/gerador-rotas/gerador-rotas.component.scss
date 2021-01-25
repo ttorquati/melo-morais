@@ -1,0 +1,50 @@
+.mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .mat-form-field {
+    width: 220px;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+   form > * {
+    margin: 5px 0;
+  }
+  
+ .mat-radio-button {
+    margin: 0 12px;
+  }
+
+  .gera-rota-form {
+      margin-left: 20px;
+  }
+
+  table {
+    width: 100%;
+}
+
+h1 {
+    color: #0474b9;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #d8edfa;
+}
+
+.doadores {
+    width: 95%;
+    display: block;
+    margin: 0 auto;
+    clear: both;
+}
+
+.mat-raised-button {
+  margin: 5px;
+  background-color: #0474b9;
+  color: #f6f9fa;
+}
+
+.mat-dialog-content {
+  white-space: pre-line;
+}
