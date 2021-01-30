@@ -55,7 +55,7 @@ export class GeradorRotasComponent implements OnInit {
         } else {
           this.doadoresSelecionados = new MatTableDataSource(response);
         }
-        this.quantidade+= this.doadoresSelecionados.data.length;
+        this.quantidade = this.doadoresSelecionados.data.length;
       });
   }
 
