@@ -10,8 +10,8 @@
     <mat-form-field class="full-width">
         <mat-label>Bairro</mat-label>
         <mat-select formControlName="bairro">
-            <mat-option *ngFor="let b of bairrosDisponveis" [value]="bairro">
-                {{b}}
+            <mat-option *ngFor="let bairro of bairrosDisponveis" [value]="bairro">
+                {{bairro}}
             </mat-option>
         </mat-select>
     </mat-form-field>

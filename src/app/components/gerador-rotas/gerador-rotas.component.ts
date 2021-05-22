@@ -42,7 +42,8 @@ export class GeradorRotasComponent implements OnInit {
   createFormGroup(geraRota: GeraRota) {
     this.doadorForm = new FormGroup({
         bairro: new FormControl(geraRota.bairro),
-        semana: new FormControl(geraRota.semana)
+        semana: new FormControl(geraRota.semana),
+        bairrosDisponveis: new FormControl(this.bairrosDisponveis)
     });
   }
 
