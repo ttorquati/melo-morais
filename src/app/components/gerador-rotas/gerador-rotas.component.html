@@ -1,10 +1,19 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <form class="gera-rota-form"  [formGroup]="doadorForm" (ngSubmit)="submit()" novalidate>
-    <mat-form-field class="full-width">
+   <!-- <mat-form-field class="full-width">
         <mat-label>Bairro</mat-label>
         <input matInput formControlName="bairro" class="form-control"
         placeholder="Digite o bairro" type="text">
+    </mat-form-field>-->
+
+    <mat-form-field class="full-width">
+        <mat-label>Bairro</mat-label>
+        <mat-select formControlName="bairro">
+            <mat-option *ngFor="let b of bairrosDisponveis" [value]="bairro">
+                {{b}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
 
     <mat-form-field class="full-width">

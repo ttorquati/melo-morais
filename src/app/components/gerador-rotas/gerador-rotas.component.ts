@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { GeraRota } from './models/gera-rota';
 import { DoadoresService } from '../doadores/services/services.doadores';
 import { MatTableDataSource } from '@angular/material/table';
 import { DoadoresGetModel } from '../doadores/models/doadores-get';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogDataExampleDialog } from '../cadastro-doador/cadastro-doador.component';
+
 
 @Component({
   selector: 'app-gerador-rotas',
@@ -18,6 +18,7 @@ export class GeradorRotasComponent implements OnInit {
   quantidade: number = 0;
   doadorForm: FormGroup;
   doadoresSelecionados: MatTableDataSource<DoadoresGetModel>;
+  bairrosDisponveis: Set<String>;
   displayedColumns: string[] = ['nome', 'contato', 'quantidade', 'semana', 'rua', 'numero', 'bairro', 'complemento', 'obs', 'acao'];
 
   constructor(public doadoresService: DoadoresService, public dialog: MatDialog) {
@@ -26,6 +27,9 @@ export class GeradorRotasComponent implements OnInit {
 
   ngOnInit(): void {
     this.createFormGroup(new GeraRota());
+    this.doadoresService.getDoadores().subscribe(resp => {
+      this.bairrosDisponveis = new Set(resp.map(d => d.endereco.bairro));
+    });
   } 
 
   ngOnDestroy(): void {
@@ -50,8 +54,15 @@ export class GeradorRotasComponent implements OnInit {
     bairros.push(result.bairro)
     this.doadoresService.getDoadoresSemanaBairro(semanas, bairros)
       .subscribe(response => {
-        if(this.doadoresSelecionados) { 
-          this.doadoresSelecionados.data = this.doadoresSelecionados.data.concat(response);
+        if(this.doadoresSelecionados) {
+          let uniqueArray = this.doadoresSelecionados.data;
+          response.forEach(resp => {
+            if(!this.doadoresSelecionados.data.find(s => s.id == resp.id)){
+              uniqueArray.push(resp);
+            }
+          });
+          this.doadoresSelecionados.data = uniqueArray;
+
         } else {
           this.doadoresSelecionados = new MatTableDataSource(response);
         }
@@ -85,15 +96,29 @@ export class GeradorRotasComponent implements OnInit {
     this.doadoresService.gerarRota(this.doadoresSelecionados.data.map(d => d.id)).subscribe(response => {
       console.log(response);
       let rota = response.rota.map(resp => resp.endereco.rua + ", " + resp.endereco.bairro + ", " + resp.endereco.numero).join("\n\n");
-      let rota2 = response.rota.map(resp => resp.endereco.rua + ", " + resp.endereco.bairro + ", " + resp.endereco.numero).join("<br>");
-      this.dialog.open(DialogDataExampleDialog, {
+      this.dialog.open(RotaGeradaDialog, {
         height: '450px',
         data: {
           title: 'Rota gerada com sucesso!',
-          message: rota
+          message: rota,
+          link: response.googleMapsUrl
         }
       });
     });
   }
 
 }
+
+@Component({
+  selector: 'rota-gerada-dialog',
+  templateUrl: 'modal/rota-gerada-dialog.html',
+})
+export class RotaGeradaDialog {
+
+  title: string;
+  message: string;
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  
+}
+
