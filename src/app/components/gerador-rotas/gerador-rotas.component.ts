@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DoadoresGetModel } from '../doadores/models/doadores-get';
 import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogDataExampleDialog } from '../cadastro-doador/cadastro-doador.component';
+import {filter, map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -17,6 +19,9 @@ export class GeradorRotasComponent implements OnInit {
 
   quantidade: number = 0;
   doadorForm: FormGroup;
+  myControl = new FormControl();
+  options: DoadoresGetModel[];
+  filteredOptions: Observable<DoadoresGetModel[]>;
   doadoresSelecionados: MatTableDataSource<DoadoresGetModel>;
   bairrosDisponveis: Set<String>;
   displayedColumns: string[] = ['nome', 'contato', 'quantidade', 'semana', 'rua', 'numero', 'bairro', 'complemento', 'obs', 'acao'];
@@ -28,14 +33,61 @@ export class GeradorRotasComponent implements OnInit {
   ngOnInit(): void {
     this.createFormGroup(new GeraRota());
     this.doadoresService.getDoadores().subscribe(resp => {
+      this.options = resp;
+      this.filteredOptions = this.myControl.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
       this.bairrosDisponveis = new Set(resp.map(d => d.endereco.bairro));
     });
   } 
+
+  add() {
+    if(!this.doadoresSelecionados) {
+      this.doadoresSelecionados = new MatTableDataSource();
+    }
+    if(!this.doadoresSelecionados.data.find(s => s.id == this.myControl.value.id)){
+      this.doadoresSelecionados.data.push(this.myControl.value);
+      this.quantidade++;
+      this.doadoresSelecionados.data = this.doadoresSelecionados.data;
+    }
+    this.filteredOptions = this.myControl.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
+    this.myControl.reset();
+  }
+
+  optionToString(option) {
+    if(option && option.endereco) {
+      return option.endereco.rua + " - " + option.endereco.numero;
+    }
+  }
+
+  private _filter(value: any): DoadoresGetModel[] {
+    let filterValue;
+    if(!value){
+      filterValue = '';
+    }else if (value.endereco){
+      filterValue = value.endereco.rua.toLowerCase();
+    } else{
+      filterValue = value.toLowerCase();
+    }
+
+    return this.options.filter(option => option.endereco.rua.toLowerCase().includes(filterValue));
+  }
 
   ngOnDestroy(): void {
   }
 
   submit(): void {
+    if(this.myControl.value){
+      if(!this.doadoresSelecionados) {
+        this.doadoresSelecionados = new MatTableDataSource();
+      }
+      if(!this.doadoresSelecionados.data.find(s => s.id == this.myControl.value.id)){
+        this.doadoresSelecionados.data.push(this.myControl.value);
+        this.quantidade++;
+        this.doadoresSelecionados.data = this.doadoresSelecionados.data;
+      }
+      this.filteredOptions = this.myControl.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
+      this.myControl.reset();
+      return;
+    }
     this.getDoadoresSemanaBairro();
   }
 
@@ -102,7 +154,7 @@ export class GeradorRotasComponent implements OnInit {
         data: {
           title: 'Rota gerada com sucesso!',
           message: rota,
-          link: response.googleMapsUrl
+          link: response.googleMapsUrls
         }
       });
     });

@@ -1,4 +1,6 @@
 <h1 mat-dialog-title>{{data.title}}</h1>
 <div style="white-space: pre-line" mat-dialog-content>{{data.message}}</div>
 <br>
-<div style="white-space: pre-line" mat-dialog-content><a href={{data.link}} target="_blank">Google Maps</a></div>
+<mat-nav-list>
+    <a mat-list-item href="{{link}}" target="_blank" *ngFor="let link of data.link; index as i"> Google Maps {{i+1}} </a>
+ </mat-nav-list>

@@ -1,4 +1,3 @@
-import { Identifiers } from "@angular/compiler";
 import { DoadoresEnderecoGetModel } from "./doadores-endereco-get";
 
 export class DoadoresGetModel {

@@ -1,11 +1,27 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <form class="gera-rota-form"  [formGroup]="doadorForm" (ngSubmit)="submit()" novalidate>
-   <!-- <mat-form-field class="full-width">
-        <mat-label>Bairro</mat-label>
-        <input matInput formControlName="bairro" class="form-control"
-        placeholder="Digite o bairro" type="text">
-    </mat-form-field>-->
+    <h2>Adicionar individual</h2>
+    <mat-form-field class="example-full-width">
+        <mat-label>Rua</mat-label>
+        <input type="text"
+                placeholder="Digite a rua"
+                aria-label="Rua"
+                matInput
+                [formControl]="myControl"
+                [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="optionToString" [optionSelected]="add">
+            <mat-option *ngFor="let option of filteredOptions  | async" [value]="option">
+                {{option.endereco.rua}} - {{option.endereco.numero}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-card-actions>
+        <button mat-raised-button type="submit" color="primary">Adicionar</button>
+    </mat-card-actions>
+
+    <h2>Adicionar em lote</h2>
 
     <mat-form-field class="full-width">
         <mat-label>Bairro</mat-label>
