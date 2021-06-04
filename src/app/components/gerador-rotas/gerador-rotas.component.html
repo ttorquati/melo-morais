@@ -24,10 +24,10 @@
     <h2>Adicionar em lote</h2>
 
     <mat-form-field class="full-width">
-        <mat-label>Bairro</mat-label>
-        <mat-select formControlName="bairro">
-            <mat-option *ngFor="let bairro of bairrosDisponveis" [value]="bairro">
-                {{bairro}}
+        <mat-label>Area - Bairro</mat-label>
+        <mat-select formControlName="area">
+            <mat-option *ngFor="let area of areasDisponiveis" [value]="area">
+                {{area}}
             </mat-option>
         </mat-select>
     </mat-form-field>

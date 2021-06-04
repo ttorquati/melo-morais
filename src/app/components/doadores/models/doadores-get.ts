@@ -7,4 +7,5 @@ export class DoadoresGetModel {
     nome: string;
     quantidade: number;
     semana: number;
+    ativo: boolean;
 }

@@ -1,5 +1,5 @@
 
 export class GeraRota {
-    bairro: string;
+    area: string;
     semana: number;
 }

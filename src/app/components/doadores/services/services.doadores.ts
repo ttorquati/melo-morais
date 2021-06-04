@@ -31,10 +31,14 @@ export class DoadoresService {
         return this.httpClient.post(`${this.apiUrl}/doadores`, novoDoador);
     }
 
-    getDoadoresSemanaBairro(semanas: number[], bairros: string[]): Observable<DoadoresGetModel[]> {
+    deletaDoador(id: number): Observable<any> {
+        return this.httpClient.delete(`${this.apiUrl}/doadores/` + id);
+    }
+
+    getDoadoresSemanaArea(semanas: number[], areas: string[]): Observable<DoadoresGetModel[]> {
         let params = new HttpParams();
         params = params.append("semanas", semanas.join(","));
-        params = params.append("bairros", bairros.join(","));
+        params = params.append("areas", areas.join(","));
         let myhttpOptions = { 
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',

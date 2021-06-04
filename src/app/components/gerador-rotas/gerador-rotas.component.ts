@@ -23,7 +23,7 @@ export class GeradorRotasComponent implements OnInit {
   options: DoadoresGetModel[];
   filteredOptions: Observable<DoadoresGetModel[]>;
   doadoresSelecionados: MatTableDataSource<DoadoresGetModel>;
-  bairrosDisponveis: Set<String>;
+  areasDisponiveis: Set<String>;
   displayedColumns: string[] = ['nome', 'contato', 'quantidade', 'semana', 'rua', 'numero', 'bairro', 'complemento', 'obs', 'acao'];
 
   constructor(public doadoresService: DoadoresService, public dialog: MatDialog) {
@@ -35,7 +35,7 @@ export class GeradorRotasComponent implements OnInit {
     this.doadoresService.getDoadores().subscribe(resp => {
       this.options = resp;
       this.filteredOptions = this.myControl.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
-      this.bairrosDisponveis = new Set(resp.map(d => d.endereco.bairro));
+      this.areasDisponiveis = new Set(resp.map(d => d.endereco.area));
     });
   } 
 
@@ -88,24 +88,24 @@ export class GeradorRotasComponent implements OnInit {
       this.myControl.reset();
       return;
     }
-    this.getDoadoresSemanaBairro();
+    this.getDoadoresSemanaArea();
   }
 
   createFormGroup(geraRota: GeraRota) {
     this.doadorForm = new FormGroup({
-        bairro: new FormControl(geraRota.bairro),
+        area: new FormControl(geraRota.area),
         semana: new FormControl(geraRota.semana),
-        bairrosDisponveis: new FormControl(this.bairrosDisponveis)
+        areasDisponiveis: new FormControl(this.areasDisponiveis)
     });
   }
 
-  getDoadoresSemanaBairro(): void {
+  getDoadoresSemanaArea(): void {
     const result: GeraRota = Object.assign({}, this.doadorForm.value);
     let semanas = [];
     semanas.push(result.semana)
-    let bairros = [];
-    bairros.push(result.bairro)
-    this.doadoresService.getDoadoresSemanaBairro(semanas, bairros)
+    let areas = [];
+    areas.push(result.area)
+    this.doadoresService.getDoadoresSemanaArea(semanas, areas)
       .subscribe(response => {
         if(this.doadoresSelecionados) {
           let uniqueArray = this.doadoresSelecionados.data;
@@ -147,7 +147,6 @@ export class GeradorRotasComponent implements OnInit {
     }
 
     this.doadoresService.gerarRota(this.doadoresSelecionados.data.map(d => d.id)).subscribe(response => {
-      console.log(response);
       let rota = response.rota.map(resp => resp.endereco.rua + ", " + resp.endereco.bairro + ", " + resp.endereco.numero).join("\n\n");
       this.dialog.open(RotaGeradaDialog, {
         height: '450px',
