@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { DoadoresService } from '../doadores/services/services.doadores';
 import { NovoDoador } from './model/novo-doador';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cadastro-doador',
@@ -72,7 +70,8 @@ export class CadastroDoadorComponent implements OnInit {
         endereco: new FormGroup({
           rua: new FormControl(novoDoador.endereco.rua),
           numero: new FormControl(novoDoador.endereco.numero),
-          bairro: new FormControl(novoDoador.endereco.bairro)
+          bairro: new FormControl(novoDoador.endereco.bairro),
+          area: new FormControl(novoDoador.endereco.area)
         })
     });
   }

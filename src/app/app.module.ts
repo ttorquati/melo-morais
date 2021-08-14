@@ -13,16 +13,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
-import { GeradorRotasComponent } from './components/gerador-rotas/gerador-rotas.component';
+import { GeradorRotasComponent, RotaGeradaDialog } from './components/gerador-rotas/gerador-rotas.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CadastroDoadorComponent } from './components/cadastro-doador/cadastro-doador.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CommonModule } from '@angular/common';
+import { MatListModule } from '@angular/material/list';
+
 
 @NgModule({
-    declarations: [AppComponent, DoadoresComponent, GeradorRotasComponent, HeaderComponent, CadastroDoadorComponent],
+    declarations: [AppComponent, DoadoresComponent, GeradorRotasComponent, HeaderComponent, CadastroDoadorComponent, RotaGeradaDialog],
     imports: [
+        CommonModule,
         BrowserModule, 
         HttpClientModule,
         AppRoutingModule, 
@@ -36,7 +41,9 @@ import { MatIconModule } from '@angular/material/icon';
         ReactiveFormsModule,
         MatDialogModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        MatAutocompleteModule,
+        MatListModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

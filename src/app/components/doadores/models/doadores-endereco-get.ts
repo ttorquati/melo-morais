@@ -4,4 +4,5 @@ export class DoadoresEnderecoGetModel {
     numero: string;
     rua: string;
     obs: string;
+    area: string;
 }

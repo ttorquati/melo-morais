@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { GeraRota } from './models/gera-rota';
 import { DoadoresService } from '../doadores/services/services.doadores';
 import { MatTableDataSource } from '@angular/material/table';
 import { DoadoresGetModel } from '../doadores/models/doadores-get';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogDataExampleDialog } from '../cadastro-doador/cadastro-doador.component';
+import {filter, map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-gerador-rotas',
@@ -17,7 +19,11 @@ export class GeradorRotasComponent implements OnInit {
 
   quantidade: number = 0;
   doadorForm: FormGroup;
+  myControl = new FormControl();
+  options: DoadoresGetModel[];
+  filteredOptions: Observable<DoadoresGetModel[]>;
   doadoresSelecionados: MatTableDataSource<DoadoresGetModel>;
+  areasDisponiveis: Set<String>;
   displayedColumns: string[] = ['nome', 'contato', 'quantidade', 'semana', 'rua', 'numero', 'bairro', 'complemento', 'obs', 'acao'];
 
   constructor(public doadoresService: DoadoresService, public dialog: MatDialog) {
@@ -26,36 +32,94 @@ export class GeradorRotasComponent implements OnInit {
 
   ngOnInit(): void {
     this.createFormGroup(new GeraRota());
+    this.doadoresService.getDoadores().subscribe(resp => {
+      this.options = resp;
+      this.filteredOptions = this.myControl.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
+      this.areasDisponiveis = new Set(resp.map(d => d.endereco.area));
+    });
   } 
+
+  add() {
+    if(!this.doadoresSelecionados) {
+      this.doadoresSelecionados = new MatTableDataSource();
+    }
+    if(!this.doadoresSelecionados.data.find(s => s.id == this.myControl.value.id)){
+      this.doadoresSelecionados.data.push(this.myControl.value);
+      this.quantidade++;
+      this.doadoresSelecionados.data = this.doadoresSelecionados.data;
+    }
+    this.filteredOptions = this.myControl.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
+    this.myControl.reset();
+  }
+
+  optionToString(option) {
+    if(option && option.endereco) {
+      return option.endereco.rua + " - " + option.endereco.numero;
+    }
+  }
+
+  private _filter(value: any): DoadoresGetModel[] {
+    let filterValue;
+    if(!value){
+      filterValue = '';
+    }else if (value.endereco){
+      filterValue = value.endereco.rua.toLowerCase();
+    } else{
+      filterValue = value.toLowerCase();
+    }
+
+    return this.options.filter(option => option.endereco.rua.toLowerCase().includes(filterValue));
+  }
 
   ngOnDestroy(): void {
   }
 
   submit(): void {
-    this.getDoadoresSemanaBairro();
+    if(this.myControl.value){
+      if(!this.doadoresSelecionados) {
+        this.doadoresSelecionados = new MatTableDataSource();
+      }
+      if(!this.doadoresSelecionados.data.find(s => s.id == this.myControl.value.id)){
+        this.doadoresSelecionados.data.push(this.myControl.value);
+        this.quantidade++;
+        this.doadoresSelecionados.data = this.doadoresSelecionados.data;
+      }
+      this.filteredOptions = this.myControl.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
+      this.myControl.reset();
+      return;
+    }
+    this.getDoadoresSemanaArea();
   }
 
   createFormGroup(geraRota: GeraRota) {
     this.doadorForm = new FormGroup({
-        bairro: new FormControl(geraRota.bairro),
-        semana: new FormControl(geraRota.semana)
+        area: new FormControl(geraRota.area),
+        semana: new FormControl(geraRota.semana),
+        areasDisponiveis: new FormControl(this.areasDisponiveis)
     });
   }
 
-  getDoadoresSemanaBairro(): void {
+  getDoadoresSemanaArea(): void {
     const result: GeraRota = Object.assign({}, this.doadorForm.value);
     let semanas = [];
     semanas.push(result.semana)
-    let bairros = [];
-    bairros.push(result.bairro)
-    this.doadoresService.getDoadoresSemanaBairro(semanas, bairros)
+    let areas = [];
+    areas.push(result.area)
+    this.doadoresService.getDoadoresSemanaArea(semanas, areas)
       .subscribe(response => {
-        if(this.doadoresSelecionados) { 
-          this.doadoresSelecionados.data = this.doadoresSelecionados.data.concat(response);
+        if(this.doadoresSelecionados) {
+          let uniqueArray = this.doadoresSelecionados.data;
+          response.forEach(resp => {
+            if(!this.doadoresSelecionados.data.find(s => s.id == resp.id)){
+              uniqueArray.push(resp);
+            }
+          });
+          this.doadoresSelecionados.data = uniqueArray;
+
         } else {
           this.doadoresSelecionados = new MatTableDataSource(response);
         }
-        this.quantidade+= this.doadoresSelecionados.data.length;
+        this.quantidade = this.doadoresSelecionados.data.length;
       });
   }
 
@@ -83,17 +147,30 @@ export class GeradorRotasComponent implements OnInit {
     }
 
     this.doadoresService.gerarRota(this.doadoresSelecionados.data.map(d => d.id)).subscribe(response => {
-      console.log(response);
       let rota = response.rota.map(resp => resp.endereco.rua + ", " + resp.endereco.bairro + ", " + resp.endereco.numero).join("\n\n");
-      let rota2 = response.rota.map(resp => resp.endereco.rua + ", " + resp.endereco.bairro + ", " + resp.endereco.numero).join("<br>");
-      this.dialog.open(DialogDataExampleDialog, {
+      this.dialog.open(RotaGeradaDialog, {
         height: '450px',
         data: {
           title: 'Rota gerada com sucesso!',
-          message: rota
+          message: rota,
+          link: response.googleMapsUrls
         }
       });
     });
   }
 
 }
+
+@Component({
+  selector: 'rota-gerada-dialog',
+  templateUrl: 'modal/rota-gerada-dialog.html',
+})
+export class RotaGeradaDialog {
+
+  title: string;
+  message: string;
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  
+}
+
