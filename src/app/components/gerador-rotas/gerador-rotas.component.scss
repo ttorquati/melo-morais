@@ -1,54 +1,83 @@
-.mat-form-field + .mat-form-field {
-    margin-left: 8px;
-  }
-  
-  .mat-form-field {
-    width: 220px;
-  }
-
-  .example-full-width {
-    width: 450px;
-  }
-  
-  form {
-    margin-bottom: 20px;
-  }
-  
-   form > * {
-    margin: 5px 0;
-  }
-  
- .mat-radio-button {
-    margin: 0 12px;
-  }
-
-  .gera-rota-form {
-      margin-left: 20px;
-  }
-
-  table {
-    width: 100%;
-}
-
-h1 {
-    color: #0474b9;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #d8edfa;
-}
-
-.doadores {
-    width: 95%;
-    display: block;
+.gerar-rota {
     margin: 0 auto;
-    clear: both;
-}
+    padding: 32px;
 
-.mat-raised-button {
-  margin: 5px;
-  background-color: #0474b9;
-  color: #f6f9fa;
+    h1 {
+        color: #3f51b5;
+        font-size: 2rem;
+        font-weight: 500;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    .mat-card + .mat-card {
+        margin-top: 24px;
+    }
+
+    .form-rota {
+        button {
+            margin-left: 24px;
+        }
+
+        &.form-rota--individual {
+            .mat-form-field {
+                width: 360px;
+            }
+        }
+
+        &.form-rota--lote {
+            .mat-form-field {
+                width: 260px;
+            }
+            .mat-form-field + .mat-form-field {
+                margin-left: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            button {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+
+            &.form-rota--individual {
+                .mat-form-field {
+                    width: 100%;
+                }
+            }
+
+            &.form-rota--lote {
+                .mat-form-field {
+                    width: 100%;
+                }
+                .mat-form-field + .mat-form-field {
+                    margin-left: 0;
+                    margin-top: 8px;
+                }
+            }
+            
+        }
+    }
+
+    .footer--actions {
+        margin-top: 24px;
+
+        button + button {
+            margin-left: 24px;
+        }        
+    }
+
+    .doadores {
+        margin-top: 48px;
+    }
 }
 
 .mat-dialog-content {
-  white-space: pre-line;
+    white-space: pre-line;
 }
