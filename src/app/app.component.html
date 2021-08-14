@@ -1,2 +1,30 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
+<header>
+    <mat-toolbar color="primary">
+        <img  class="header-logo" src="../../../assets/logo.png" alt="Casa Transitória Fabiano de Cristo - Campanha da cesta básica" />
+        <span class="header-title">Campanha da cesta básica</span>
+        <span class="spacer"></span>
+        <div fxShow="true" fxHide.lt-md="true">
+            <a mat-button [routerLink]="['/']">Doadores</a>
+            <a mat-button [routerLink]="['/cadastro-doador']">Cadastro de Doador</a>
+            <a mat-button [routerLink]="['/gera-rota']">Gerar Rota</a>
+        </div>
+        <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm="true" class="header-menu">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </mat-toolbar>
+</header>
+
+<mat-sidenav-container  class="app-container">
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true" position="end">
+        <div fxLayout="column">
+            <a mat-button [routerLink]="['/']">Doadores</a>
+            <a mat-button [routerLink]="['/cadastro-doador']">Cadastro de Doador</a>
+            <a mat-button [routerLink]="['/gera-rota']">Gerar Rota</a>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <router-outlet></router-outlet>
+        
+    </mat-sidenav-content>
+</mat-sidenav-container>

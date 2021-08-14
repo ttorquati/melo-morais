@@ -1,7 +1,8 @@
 <div class="doadores">
     <h1>Doadores</h1>
+
     <mat-form-field>
-        <mat-label>Filter</mat-label>
+        <mat-label>Buscar</mat-label>
         <input matInput (keyup)="applyFilter($event.target.value)">
     </mat-form-field>
 
@@ -56,9 +57,8 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
     </table>
-    
 
     <mat-paginator [pageSize]="pageInitial" showFirstLastButtons></mat-paginator>
 </div>

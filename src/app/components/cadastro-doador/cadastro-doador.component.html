@@ -1,58 +1,59 @@
-<form class="cadastro-doador-form"  [formGroup]="doadorForm" (ngSubmit)="submit()" novalidate>
-    <mat-form-field class="full-width">
-      <mat-label>Nome do doador</mat-label>
-      <input matInput formControlName="nome" class="form-control" 
-      placeholder="Digite o nome" type="text">
-    </mat-form-field>
+<div class="cadastro-doadores">
+    <h1>Cadastro de Doador</h1>
 
-    <mat-form-field class="full-width">
-        <mat-label>Contato</mat-label>
-        <input matInput formControlName="contato" class="form-control"
-         placeholder="Digite o contato" type="text">
-    </mat-form-field>
-
-    <mat-form-field class="full-width">
-        <mat-label>Quantidade prevista</mat-label>
-        <input matInput formControlName="quantidade" class="form-control"
-         placeholder="Digite a quantidade prevista" type="number">
-    </mat-form-field>
-
-    <mat-form-field class="full-width">
-        <mat-label>Semana</mat-label>
-        <mat-select formControlName="semana">
-            <mat-option value="1">1</mat-option>
-            <mat-option value="2">2</mat-option>
-            <mat-option value="3">3</mat-option>
-            <mat-option value="4">4</mat-option>
-        </mat-select>
-    </mat-form-field>
-    
-    <div formGroupName="endereco" novalidate>
+    <form class="cadastro-doador-form" [formGroup]="doadorForm" (ngSubmit)="submit()" novalidate>
         <mat-form-field class="full-width">
+            <mat-label>Nome do doador</mat-label>
+            <input matInput formControlName="nome" class="form-control" 
+            placeholder="Digite o nome" type="text">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Contato</mat-label>
+            <input matInput formControlName="contato" class="form-control"
+            placeholder="Digite o contato" type="text">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Quantidade prevista</mat-label>
+            <input matInput formControlName="quantidade" class="form-control"
+            placeholder="Digite a quantidade prevista" type="number">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+            <mat-label>Semana</mat-label>
+            <mat-select formControlName="semana">
+                <mat-option value="1">1</mat-option>
+                <mat-option value="2">2</mat-option>
+                <mat-option value="3">3</mat-option>
+                <mat-option value="4">4</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" formGroupName="endereco" novalidate>
             <mat-label>Rua</mat-label>
             <input matInput formControlName="rua" class="form-control"
             placeholder="Digite a rua" type="text">
         </mat-form-field>
 
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" formGroupName="endereco" novalidate>
             <mat-label>N.º</mat-label>
             <input matInput formControlName="numero" class="form-control"
             placeholder="Digite o N.º" type="text">
         </mat-form-field>
 
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" formGroupName="endereco" novalidate>
             <mat-label>Bairro</mat-label>
             <input matInput formControlName="bairro" class="form-control"
             placeholder="Digite o bairro" type="text">
         </mat-form-field>
-        <mat-form-field class="full-width">
+        
+        <mat-form-field class="full-width" formGroupName="endereco" novalidate>
             <mat-label>Area</mat-label>
             <input matInput formControlName="area" class="form-control"
             placeholder="Digite a area" type="text">
         </mat-form-field>
-    </div>
 
-    <mat-card-actions>
-        <button mat-raised-button type="submit" color="basic">Salvar</button>
-    </mat-card-actions>
-</form>
+        <button mat-raised-button type="submit" color="primary">Salvar</button>        
+    </form>
+</div>

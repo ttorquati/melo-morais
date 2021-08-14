@@ -1,23 +1,38 @@
-.mat-form-field + .mat-form-field {
-    margin-left: 8px;
-  }
-  
-  .mat-form-field {
-    width: 220px;
-  }
-  
-  form {
-    margin-bottom: 20px;
-  }
-  
-   form > * {
-    margin: 5px 0;
-  }
-  
- .mat-radio-button {
-    margin: 0 12px;
-  }
+.cadastro-doadores {
+    margin: 0 auto;
+    padding: 32px;
 
-  .cadastro-doador-form {
-      margin-left: 20px;
-  }
+    h1 {
+        color: #3f51b5;
+        font-size: 2rem;
+        font-weight: 500;
+    }
+    
+    .cadastro-doador-form {
+        margin-top: 24px;
+        margin-bottom: 16px;
+        
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas: 
+            ". . . ."
+            ". . . ."
+            ". button button .";
+        grid-gap: 32px;
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .mat-form-field + .mat-form-field {
+                margin-top: 8px;
+            }
+        }
+
+        .mat-raised-button {
+            grid-area: button;
+            margin-top: 12px;
+        }
+    }
+}
