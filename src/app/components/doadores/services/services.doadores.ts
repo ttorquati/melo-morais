@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { URLSearchParams } from 'url';
+import { Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
 import { NovoDoador } from '../../cadastro-doador/model/novo-doador';

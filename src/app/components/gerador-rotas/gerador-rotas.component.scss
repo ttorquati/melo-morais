@@ -75,6 +75,39 @@
 
     .doadores {
         margin-top: 48px;
+
+        .mobile-label {
+            display: none;
+        }
+    
+        @media (max-width: 768px) {
+            .mobile-label {
+                display: inline-block;
+                font-weight: bold;
+                margin-right: 6px;
+            }
+    
+            .mat-header-row {
+                display: none;
+            }
+    
+            .mat-row { 
+                flex-direction: column;
+                align-items: start;
+                padding: 8px;
+                min-height: auto;
+            }
+    
+            .mat-cell {
+                min-height: auto;
+                width: 100%;
+                padding: 0;
+            }
+    
+            .mobile-actions {
+                justify-content: flex-end;
+            }
+        }
     }
 }
 
