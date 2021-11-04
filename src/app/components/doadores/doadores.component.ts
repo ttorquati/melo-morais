@@ -26,7 +26,7 @@ export class DoadoresComponent implements OnInit, OnDestroy {
         this.getUnsubscribe$ = new Subject();
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void {        
         this.getDoadores();
     }
 
@@ -43,6 +43,12 @@ export class DoadoresComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.getUnsubscribe$))
             .subscribe(response => {
                 this.doadores = new MatTableDataSource(response);
+
+                this.doadores.filterPredicate = (data: any, filter) => {
+                    const dataStr = JSON.stringify(data).toLowerCase();
+                    return dataStr.indexOf(filter) != -1; 
+                }
+
                 this.doadores.paginator = this.paginator;
             });
     }
@@ -55,6 +61,6 @@ export class DoadoresComponent implements OnInit, OnDestroy {
     }
 
     applyFilter(value: string): void {
-        this.doadores.filter = value;
+        this.doadores.filter = value.toLowerCase();
     }
 }
