@@ -46,7 +46,7 @@ export class DoadoresComponent implements OnInit, OnDestroy {
 
                 this.doadores.filterPredicate = (data: any, filter) => {
                     const dataStr = JSON.stringify(data).toLowerCase();
-                    return dataStr.indexOf(filter) != -1; 
+                    return dataStr.includes(filter); 
                 }
 
                 this.doadores.paginator = this.paginator;
